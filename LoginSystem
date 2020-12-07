@@ -1,0 +1,50 @@
+import sys 
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QDialog, QApplication
+from PyQt5.uic import loadUi
+
+class Login(QDialog):
+	def __init__(self):
+		super(Login, self).__init__()
+		loadUi("LogIn.ui", self)
+		self.LogInButton.clicked.connect(self.loginfunction)
+		self.contrasena.setEchoMode(QtWidgets.QLineEdit.Password)
+		self.CrearCuentaBoton.clicked.connect(self.gotocreate)
+
+
+	def loginfunction(self):
+		email = self.Email.text()
+		contrasena = self.contrasena.text()
+		print("Ingreso correcto...", email, "y contraseña", contrasena)
+
+	def gotocreate(self):
+		NuevaCrearCuenta = CreateAcc()
+		herramienta.addWidget(NuevaCrearCuenta)
+		herramienta.setCurrentIndex(herramienta.currentIndex()+1)
+
+class CreateAcc(QDialog):
+	def __init__(self):
+		super(CreateAcc, self).__init__()
+		loadUi("CreateAcc.ui",self)
+		self.SignUpBotton.clicked.connect(self.createaccfunction)
+		self.contrasena.setEchoMode(QtWidgets.QLineEdit.Password)
+		self.ConfirmPass.setEchoMode(QtWidgets.QLineEdit.Password)
+
+	def createaccfunction(self):
+		email = self.email.text()
+		if self.contrasena.text()==self.ConfirmPass.text():
+			contrasena=self.contrasena.text()
+			print("Creacion de cuenta exitosa...", email, "y contraseña ", contrasena)
+			login = Login()
+			herramienta.addWidget(login)
+
+
+        
+app = QApplication(sys.argv)
+ventanaprin=Login()
+herramienta = QtWidgets.QStackedWidget()
+herramienta.addWidget(ventanaprin)
+herramienta.setFixedWidth(480)
+herramienta.setFixedHeight(620)
+herramienta.show()
+app.exec()
